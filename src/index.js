@@ -1,2 +1,3 @@
-export {createHistory} from "./createHistory";
+import {createHistory} from "./createHistory";
+export {createHistory}
 export default createHistory;
