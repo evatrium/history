@@ -1,3 +1,5 @@
 import {createHistory} from "./createHistory";
-export {createHistory}
+import {stringifyParams, getParams} from "./utils";
+
+export {createHistory, stringifyParams, getParams}
 export default createHistory;
