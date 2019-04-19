@@ -23,9 +23,18 @@ describe('createHistory', () => {
                 'goBack',
                 'goForward',
                 'replace',
-                'getParams'
+                'getParams',
+                'getLocation'
             ])
         )
+    });
+
+    it('getLocation should return the correct object', ()=>{
+       expect(hist.getLocation()).toMatchObject({
+           pathname: '/',
+           search: '',
+           params: false
+       })
     });
 
     it('should change the window pathname and search after calling goTo/push', () => {

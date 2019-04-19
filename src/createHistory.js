@@ -9,7 +9,7 @@ import {stringifyParams, getParams} from "./utils";
  * @returns {{goBack: (function(): void), goTo: route, replace: (function(*=, *=): void), goForward: (function(): void), push: route, listen: (function(*=): function(): void), getParams: getParams}}
  */
 export const createHistory = () => {
-    let h = window.history,subs = [];
+    let h = window.history, subs = [];
     /**
      * gets the current location and parsed search params
      * @returns {Object}  - just pathname, search and an additional parsed search params prop
@@ -92,6 +92,7 @@ export const createHistory = () => {
     };
 
     return {
+        getLocation: getLoc,
         goTo: route,
         push: route,
         listen: subscribe,
