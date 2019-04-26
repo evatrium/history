@@ -1,18 +1,12 @@
 import {createHistory} from "../src/createHistory";
 
 
-const getLoc = () => ({
-    pathname: window.location.pathname,
-    search: window.location.search,
-});
-const getUrl = () => {
-    const s = window.location.search;
-    return `${window.location.pathname}${s ? '/' + s : ''}`
-};
-
 describe('createHistory', () => {
 
     const hist = createHistory();
+
+    const getLoc = () => hist.getLocation();
+
     it('should have all the properties', () => {
 
         expect(Object.keys(hist)).toEqual(
@@ -29,12 +23,13 @@ describe('createHistory', () => {
         )
     });
 
-    it('getLocation should return the correct object', ()=>{
-       expect(hist.getLocation()).toMatchObject({
-           pathname: '/',
-           search: '',
-           params: false
-       })
+    it('getLocation should return the correct object', () => {
+        expect(hist.getLocation()).toMatchObject({
+            pathname: '/',
+            search: '',
+            params: false,
+            url: '/'
+        })
     });
 
     it('should change the window pathname and search after calling goTo/push', () => {
@@ -49,8 +44,8 @@ describe('createHistory', () => {
         expect(getLoc().pathname).toBe('/');
         expect(getLoc().search).toBe('');
 
-        hist.push({pathname: '/derp', search: '?id=2'})
-        expect(getUrl()).toBe('/derp/?id=2');
+        hist.push({pathname: '/derp', search: '?id=2'});
+        expect(getLoc().url).toBe('/derp?id=2');
 
     });
 
@@ -69,8 +64,8 @@ describe('createHistory', () => {
         expect(cb1).toHaveBeenCalledTimes(1);
         expect(cb2).toHaveBeenCalledTimes(1);
 
-        expect(cb1).toHaveBeenCalledWith({pathname: '/asdf', search: '', params: false});
-        expect(cb2).toHaveBeenCalledWith({pathname: '/asdf', search: '', params: false});
+        expect(cb1).toHaveBeenCalledWith({pathname: '/asdf', search: '', params: false, url: '/asdf'});
+        expect(cb2).toHaveBeenCalledWith({pathname: '/asdf', search: '', params: false, url: '/asdf'});
 
         unsubscribe1();
 
@@ -89,7 +84,7 @@ describe('createHistory', () => {
     it('should navigate to the appropriate history', () => {
         const histo = createHistory();
         histo.goTo('/');
-        expect(getLoc().pathname).toBe('/')
+        expect(getLoc().pathname).toBe('/');
 
         histo.goTo('/asdf');
         expect(getLoc().pathname).toBe('/asdf');
@@ -118,7 +113,8 @@ describe('createHistory', () => {
 
     it('should get the search params from the url', () => {
         hist.goTo('/qwerty', {id: 3});
-        expect(getUrl()).toBe('/qwerty/?id=3')
+        expect(getLoc().url).toBe('/qwerty?id=3')
     })
+
 
 });

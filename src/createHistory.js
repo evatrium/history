@@ -14,11 +14,16 @@ export const createHistory = () => {
      * gets the current location and parsed search params
      * @returns {Object}  - just pathname, search and an additional parsed search params prop
      */
-    const getLoc = () => ({
-        pathname: window.location.pathname,
-        search: window.location.search,
-        params: getParams()
-    });
+    const getLoc = () => {
+        let p =  window.location.pathname;
+        let s = window.location.search;
+        return {
+            pathname: p,
+            search:s ,
+            params: getParams(),
+            url: p + s
+        }
+    };
 
     /**
      * calls all subscriptions
