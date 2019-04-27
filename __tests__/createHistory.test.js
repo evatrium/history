@@ -64,8 +64,8 @@ describe('createHistory', () => {
         expect(cb1).toHaveBeenCalledTimes(1);
         expect(cb2).toHaveBeenCalledTimes(1);
 
-        expect(cb1).toHaveBeenCalledWith({pathname: '/asdf', search: '', params: false, url: '/asdf'});
-        expect(cb2).toHaveBeenCalledWith({pathname: '/asdf', search: '', params: false, url: '/asdf'});
+        expect(cb1).toHaveBeenCalledWith({pathname: '/asdf', search: '', params: false, url: '/asdf'}, 'push');
+        expect(cb2).toHaveBeenCalledWith({pathname: '/asdf', search: '', params: false, url: '/asdf'}, 'push');
 
         unsubscribe1();
 

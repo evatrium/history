@@ -15,11 +15,11 @@ export const createHistory = () => {
      * @returns {Object}  - just pathname, search and an additional parsed search params prop
      */
     const getLoc = () => {
-        let p =  window.location.pathname;
+        let p = window.location.pathname;
         let s = window.location.search;
         return {
             pathname: p,
-            search:s ,
+            search: s,
             params: getParams(),
             url: p + s
         }
@@ -29,9 +29,9 @@ export const createHistory = () => {
      * calls all subscriptions
      * @returns {undefined} - returns nothing
      */
-    const notifySubs = () => {
+    const notifySubs = (type) => {
         const loc = getLoc();
-        subs.forEach(fn => fn && fn(loc));
+        subs.forEach(fn => fn && fn(loc, type));
     };
 
     window.addEventListener("popstate", notifySubs);
@@ -81,7 +81,7 @@ export const createHistory = () => {
      */
     const setUrl = (path, params, type = 'push') => {
         h[type + 'State'](null, null, (path || getLoc().pathname) + (getSearch(params)));
-        notifySubs();
+        notifySubs(type);
     };
 
     /**
