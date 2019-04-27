@@ -1,6 +1,22 @@
 import {typeOf} from "@iosio/utils/lib/typeOf";
 
 /**
+ * gets the pathname from a pathname+search string. ex: '/some/path/with?a=search&value=something' => /some/path/with
+ * @param url
+ * @returns {String | boolean} - returns a string if used correctly
+ */
+export const getPathnameFromString = (url) =>typeof url === 'string' ? url.replace(/\?.+$/, '') : false;
+
+
+/**
+ * gets the search query from a url like string, ex: '/some/path/with?a=search&value=something' => a=search&value=something'
+ * @param {String} url
+ * @returns {any}
+ */
+export const getSearchFromString = (url) => typeof url === 'string' ? url.split("?")[1] : false;
+
+
+/**
  * converts an object to url search params
  * @param {Object} obj - the object to convert
  * @returns {string} - returns an empty string if no object is provided or no key values exist
@@ -89,6 +105,7 @@ export const decode = (search) => {
     //use decodeURI to get any search parameters after the path
     try {
         decoded = decodeURI(search)
+
     } catch (e) {
         console.error('search not decodable', e);
     }
@@ -97,7 +114,7 @@ export const decode = (search) => {
         //check for ?
         let searchIndex = decoded.indexOf("?");
         //grab only the search string after "?" if it exists
-        if (searchIndex >= 0){
+        if (searchIndex >= 0) {
             just_search = decoded.substr(searchIndex + 1);
             //get an array of properties delineated by "&" if anything after "?" exists (ex: id=3&detail=7)
             if (just_search.length > 0) {
@@ -105,7 +122,7 @@ export const decode = (search) => {
             }
             //return the array of props if any exist (ex: ['id=3','detail=7'] )
             return props.length > 0 ? props : false;
-        }else{
+        } else {
             return false;
         }
 
@@ -135,3 +152,21 @@ export const getParams = (search) => {
     }
     return parsed;
 };
+
+
+// /**
+//  * some hacky stuff from https://gist.github.com/jlong/2428561#gistcomment-306549
+//  * @param {String} url - the string to parse - ex: '/some/path/with?a=search&value=something' => /some/path/with
+//  * @param {boolean} actualUrl -
+//  * @returns {Object} - returns pathname, search and other stuff
+//  */
+// export const parseURL = (url, actualUrl) =>{
+//     let div = document.createElement('div');
+//     div.innerHTML = "<a></a>";
+//     div.firstChild.href = actualUrl ? url : 'https://www.google.com' + url;
+//     div.innerHTML = div.innerHTML;
+//     let out = {};
+//     var e = div.firstChild;
+//     for(var i in e) if(""+e[i]===e[i]) out[i] = e[i];
+//     return out;
+// };

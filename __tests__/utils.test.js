@@ -1,4 +1,4 @@
-import {stringifyParams, isBool, stringObj, buildString, decode, getParams} from "../src/utils";
+import {stringifyParams, isBool, stringObj, buildString, decode, getParams, getPathnameFromString, getSearchFromString} from "../src/utils";
 
 describe('stringifyParams', () => {
 
@@ -49,6 +49,18 @@ describe('isBool', () => {
 
 
     });
+
+});
+
+describe('getPathnameFromString getSearchFromString', ()=>{
+
+    it('should return only the pathname from a url-like string', ()=>{
+        expect(getPathnameFromString('/some/path/with?a=search&value=something')).toBe('/some/path/with')
+    });
+
+    it('should return only the search query from a url-like string', ()=>{
+        expect(getSearchFromString('/some/path/with?a=search&value=something')).toBe('a=search&value=something')
+    })
 
 });
 
