@@ -97,6 +97,7 @@ export const createHistory = () => {
     };
 
     return {
+        setUrl,
         getLocation: getLoc,
         goTo: route,
         push: route,
